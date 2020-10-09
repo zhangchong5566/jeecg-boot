@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
   tomcat:
     max-swallow-size: -1
   servlet:
@@ -127,9 +127,9 @@ spring:
         connectionProperties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
       datasource:
         master:
-          url: jdbc:mysql://127.0.0.1:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
-          username: root
-          password: root
+          url: jdbc:mysql://rm-2zez508vse82pwws7ko.mysql.rds.aliyuncs.com:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+          username: cs_2020
+          password: CheShang20@Cs20
           driver-class-name: com.mysql.cj.jdbc.Driver
           # 多数据源配置
           #multi-datasource1:
@@ -140,7 +140,7 @@ spring:
   #redis 配置
   redis:
     database: 0
-    host: 127.0.0.1
+    host: r-2ze3p6iruxq5yvhcmgpd.redis.rds.aliyuncs.com
     lettuce:
       pool:
         max-active: 8   #最大连接数据库连接数,设 0 为没有限制
@@ -148,7 +148,7 @@ spring:
         max-wait: -1ms  #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
         min-idle: 0     #最小等待连接中的数量,设 0 为没有限制
       shutdown-timeout: 100ms
-    password: ''
+    password: 'CheShang20@Cs20'
     port: 6379
 #mybatis plus 设置
 mybatis-plus:
@@ -172,7 +172,7 @@ jeecg :
   uploadType: local
   path :
     #文件上传根目录 设置
-    upload: D://opt//upFiles
+    upload: /Users/yunzhanghu_bj537/Downloads
     #webapp文件路径
     webapp: D://opt//webapp
   #短信秘钥
