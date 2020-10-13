@@ -191,6 +191,8 @@ public class SysUser implements Serializable {
     /**
      * 多租户id配置，编辑用户的时候设置
      */
+    @Excel(name="租户",width = 15,dictTable ="sys_tenant",dicText = "name",dicCode = "id")
+    @Dict(dictTable ="sys_tenant",dicText = "name",dicCode = "id")
     private String relTenantIds;
 
     /**设备id uniapp推送用*/

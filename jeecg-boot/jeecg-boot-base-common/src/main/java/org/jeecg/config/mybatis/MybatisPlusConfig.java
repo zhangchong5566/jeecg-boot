@@ -42,7 +42,8 @@ public class MybatisPlusConfig {
      */
     private static final List<String> DDL_KEYWORD = new ArrayList<String>();
     static {
-        tenantTable.add("jee_bug_danbiao");
+        tenantTable.add("rs_customer");
+        tenantTable.add("rs_customer_car");
         DDL_KEYWORD.add("alter");
     }
 

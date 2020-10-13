@@ -259,16 +259,10 @@
             dataIndex: 'phone'
           },
           {
-            title: '部门',
+            title: '所属租户',
             align: "center",
             width: 180,
-            dataIndex: 'orgCodeTxt'
-          },
-          {
-            title: '负责部门',
-            align: "center",
-            width: 180,
-            dataIndex: 'departIds_dictText'
+            dataIndex: 'relTenantIds_dictText'
           },
           {
             title: '状态',
