@@ -6,10 +6,13 @@ import org.jeecg.common.util.SpringContextUtils;
 import org.jeecg.modules.online.cgform.enhance.CgformEnhanceJavaInter;
 import org.jeecg.modules.online.cgform.mapper.OnlCgformFieldMapper;
 import org.jeecg.modules.online.config.exception.BusinessException;
+import org.jeecg.modules.rs.entity.RsUser;
+import org.jeecg.modules.rs.service.IRsUserService;
 import org.jeecg.modules.system.entity.SysTenant;
 import org.jeecg.modules.system.mapper.SysTenantMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +39,6 @@ public class AddShopEnhance implements CgformEnhanceJavaInter {
         log.info("----------当前Table: " + s);
         log.info("----------当前jsonObject数据: " + jsonObject.toJSONString());
 
-
         SysTenantMapper sysTenantMapper = SpringContextUtils.getBean(SysTenantMapper.class);
 
         int tenantId = (int) (System.currentTimeMillis() / 1000);
@@ -61,6 +63,18 @@ public class AddShopEnhance implements CgformEnhanceJavaInter {
         params.put("tenantId", tenantId + "");
         params.put("id", jsonObject.getString("id"));
         onlCgformFieldMapper.executeUpdatetSQL(params);
+
+        // 新建店长用户
+        IRsUserService rsUserService = SpringContextUtils.getBean(IRsUserService.class);
+        RsUser rsUser = new RsUser();
+        rsUser.setUsername(jsonObject.getString("manager_phone")); // 手机号作为用户名
+        rsUser.setPassword(jsonObject.getString("manager_password"));
+        rsUser.setPhone(jsonObject.getString("manager_phone"));
+        rsUser.setRealname(jsonObject.getString("manager_name"));
+        rsUser.setGender(jsonObject.getInteger("manager_gender"));
+        rsUser.setCreateTime(new Date());
+        rsUserService.addRsManageUser(rsUser);
+
         log.info("----------新建修理厂门店增强bean 结束--------------");
         return 0;
     }

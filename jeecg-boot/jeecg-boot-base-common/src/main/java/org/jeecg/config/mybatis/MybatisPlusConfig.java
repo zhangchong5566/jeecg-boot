@@ -44,6 +44,7 @@ public class MybatisPlusConfig {
     static {
         tenantTable.add("rs_customer");
         tenantTable.add("rs_customer_car");
+        tenantTable.add("rs_user");
         DDL_KEYWORD.add("alter");
     }
 

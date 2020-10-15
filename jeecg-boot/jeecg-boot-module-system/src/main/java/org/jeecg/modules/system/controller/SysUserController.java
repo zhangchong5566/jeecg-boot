@@ -138,13 +138,13 @@ public class SysUserController {
 		String selectedDeparts = jsonObject.getString("selecteddeparts");
 		try {
 			SysUser user = JSON.parseObject(jsonObject.toJSONString(), SysUser.class);
-			user.setCreateTime(new Date());//设置创建时间
-			String salt = oConvertUtils.randomGen(8);
-			user.setSalt(salt);
-			String passwordEncode = PasswordUtil.encrypt(user.getUsername(), user.getPassword(), salt);
-			user.setPassword(passwordEncode);
-			user.setStatus(1);
-			user.setDelFlag(CommonConstant.DEL_FLAG_0);
+            user.setCreateTime(new Date());//设置创建时间
+            String salt = oConvertUtils.randomGen(8);
+            user.setSalt(salt);
+            String passwordEncode = PasswordUtil.encrypt(user.getUsername(), user.getPassword(), salt);
+            user.setPassword(passwordEncode);
+            user.setStatus(1);
+            user.setDelFlag(CommonConstant.DEL_FLAG_0);
 			sysUserService.addUserWithRole(user, selectedRoles);
             sysUserService.addUserWithDepart(user, selectedDeparts);
 			result.success("添加成功！");
