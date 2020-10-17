@@ -13,4 +13,6 @@ public interface IRsShopService extends IService<RsShop> {
 
     boolean addShop(RsShop rsShop);
 
+    boolean updateShop(RsShop rsShop);
+
 }

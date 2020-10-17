@@ -1,10 +1,13 @@
 package org.jeecg.modules.rs.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jeecg.common.util.SpringContextUtils;
 import org.jeecg.modules.online.cgform.mapper.OnlCgformFieldMapper;
 import org.jeecg.modules.rs.entity.RsShop;
 import org.jeecg.modules.rs.entity.RsUser;
+import org.jeecg.modules.rs.entity.SysCity;
 import org.jeecg.modules.rs.mapper.RsShopMapper;
+import org.jeecg.modules.rs.mapper.SysCityMapper;
 import org.jeecg.modules.rs.service.IRsShopService;
 import org.jeecg.modules.rs.service.IRsUserService;
 import org.jeecg.modules.system.entity.SysTenant;
@@ -35,12 +38,29 @@ public class RsShopServiceImpl extends ServiceImpl<RsShopMapper, RsShop> impleme
     @Resource
     private ISysTenantService tenantService;
 
+    @Resource
+    private SysCityMapper sysCityMapper;
+
     @Override
     @Transactional
     public boolean addShop(RsShop rsShop) {
 
         int tenantId = (int) (System.currentTimeMillis() / 1000);
         rsShop.setTenantId(tenantId+"");
+
+        // 根据区/县设置省市
+        if(StringUtils.isNotBlank(rsShop.getCountyCode())) {
+            SysCity contry = sysCityMapper.queryByAdCode(rsShop.getCountyCode());
+            if(contry != null && contry.getParentId() != null) {
+                SysCity city = sysCityMapper.selectById(contry.getParentId());
+                rsShop.setCityCode(city.getAdCode());
+
+                if(city.getParentId() != null) {
+                    SysCity province = sysCityMapper.selectById(city.getParentId());
+                    rsShop.setProvinceCode(province.getAdCode());
+                }
+            }
+        }
 
         super.save(rsShop);
 
@@ -63,4 +83,27 @@ public class RsShopServiceImpl extends ServiceImpl<RsShopMapper, RsShop> impleme
 
         return true;
     }
+
+    @Override
+    @Transactional
+    public boolean updateShop(RsShop rsShop) {
+
+        // 根据区/县设置省市
+        if(StringUtils.isNotBlank(rsShop.getCountyCode())) {
+            SysCity contry = sysCityMapper.queryByAdCode(rsShop.getCountyCode());
+            if(contry != null && contry.getParentId() != null) {
+                SysCity city = sysCityMapper.selectById(contry.getParentId());
+                rsShop.setCityCode(city.getAdCode());
+
+                if(city.getParentId() != null) {
+                    SysCity province = sysCityMapper.selectById(city.getParentId());
+                    rsShop.setProvinceCode(province.getAdCode());
+                }
+            }
+        }
+
+        return super.updateById(rsShop);
+    }
+
+
 }

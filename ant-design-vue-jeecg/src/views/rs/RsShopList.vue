@@ -5,22 +5,10 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="登录账号">
-              <a-input placeholder="请输入登录账号" v-model="queryParam.username"></a-input>
+            <a-form-item label="门店名称">
+              <a-input placeholder="请输入门店名称" v-model="queryParam.name"></a-input>
             </a-form-item>
           </a-col>
-          <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="真实姓名">
-              <a-input placeholder="请输入真实姓名" v-model="queryParam.realname"></a-input>
-            </a-form-item>
-          </a-col>
-          <template v-if="toggleSearchStatus">
-            <a-col :xl="6" :lg="7" :md="8" :sm="24">
-              <a-form-item label="手机号码">
-                <a-input placeholder="请输入手机号码" v-model="queryParam.phone"></a-input>
-              </a-form-item>
-            </a-col>
-          </template>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
@@ -38,7 +26,7 @@
 
     <!-- 操作按钮区域 -->
     <div class="table-operator">
-      <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
+      <a-button @click="handleAdd" v-has="'shop:add'" type="primary" icon="plus">新增</a-button>
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
           <a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>
@@ -110,7 +98,7 @@
       </a-table>
     </div>
 
-    <rs-user-modal ref="modalForm" @ok="modalFormOk"></rs-user-modal>
+    <rs-shop-modal ref="modalForm" @ok="modalFormOk"></rs-shop-modal>
   </a-card>
 </template>
 
@@ -119,44 +107,64 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import RsUserModal from './modules/RsUserModal'
+  import RsShopModal from './modules/RsShopModal'
   import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
+  import Area from '@/components/_util/Area'
+
+  const areaData = new Area()
 
   export default {
-    name: 'RsUserList',
+    name: 'RsShopList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      RsUserModal
+      RsShopModal
     },
     data () {
       return {
-        description: '汽修门店用户管理页面',
+        description: '汽修厂门店管理页面',
+        areaData: new Area(),
         // 表头
         columns: [
           {
-            title:'登录账号',
+            title:'门店名称',
             align:"center",
-            dataIndex: 'username'
+            dataIndex: 'name'
           },
           {
-            title:'真实姓名',
+            title:'对外服务电话',
             align:"center",
-            dataIndex: 'realname'
+            dataIndex: 'shopTel'
           },
           {
-            title:'手机号码',
+            title:'所在地区',
             align:"center",
-            dataIndex: 'phone'
+            dataIndex: 'countyCode',
+            customRender:function (t,r,index) {
+              return areaData.getText(t);
+            }
           },
           {
-            title:'性别',
+            title:'详细地址',
             align:"center",
-            dataIndex: 'gender_dictText'
+            dataIndex: 'address'
           },
           {
-            title:'用户类型',
+            title:'状态',
             align:"center",
-            dataIndex: 'userType_dictText'
+            dataIndex: 'status_dictText'
+          },
+          {
+            title:'创建人',
+            align:"center",
+            dataIndex: 'createBy'
+          },
+          {
+            title:'创建日期',
+            align:"center",
+            dataIndex: 'createTime',
+            customRender:function (text) {
+              return !text?"":(text.length>10?text.substr(0,10):text)
+            }
           },
           {
             title: '操作',
@@ -168,11 +176,11 @@
           }
         ],
         url: {
-          list: "/rs/rsUser/list",
-          delete: "/rs/rsUser/delete",
-          deleteBatch: "/rs/rsUser/deleteBatch",
-          exportXlsUrl: "/rs/rsUser/exportXls",
-          importExcelUrl: "rs/rsUser/importExcel",
+          list: "/rs/rsShop/list",
+          delete: "/rs/rsShop/delete",
+          deleteBatch: "/rs/rsShop/deleteBatch",
+          exportXlsUrl: "/rs/rsShop/exportXls",
+          importExcelUrl: "rs/rsShop/importExcel",
           
         },
         dictOptions:{},
@@ -187,8 +195,9 @@
     },
     methods: {
       initDictConfig(){
-      }
-    }
+      },
+    },
+
   }
 </script>
 <style scoped>

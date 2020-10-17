@@ -11,6 +11,7 @@ export default class Area {
   constructor() {
     let arr = []
     const province = pcaa['86']
+
     Object.keys(province).map(key=>{
       arr.push({id:key, text:province[key], pid:'86'});
       const city = pcaa[key];
@@ -50,12 +51,14 @@ export default class Area {
   }
 
   getRealCode(code){
+//    console.log("getRealCode: "+code)
     let arr = []
     this.getPcode(code, arr)
     return arr;
   }
 
   getPcode(id, arr){
+//   console.log("getPcode: "+id)
     for(let item of this.all){
       if(item.id === id){
         arr.unshift(id)
@@ -67,6 +70,7 @@ export default class Area {
   }
 
   getAreaBycode(code,arr){
+//   console.log("getAreaBycode: " + code)
     //console.log("this.all.length",this.all)
     for(let item of this.all){
       if(item.id === code){
