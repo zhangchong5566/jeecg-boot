@@ -184,11 +184,10 @@ jeecg :
   #阿里云oss存储配置
   oss:
     endpoint: oss-cn-beijing.aliyuncs.com
-    accessKey: LTAIVGHDkiqtY0p5
-    secretKey: yNubUrBzszxnJNYbB6MQXbJSklfMaF
-    bucketName: cheshang-app
-    staticDomain: http://cheshang-app.oss-cn-beijing.aliyuncs.com
-  # ElasticSearch 6设置
+    accessKey:
+    secretKey:
+    bucketName:
+    staticDomain: h
   elasticsearch:
     cluster-name: docker-cluster
     cluster-nodes: 127.0.0.1:9200
